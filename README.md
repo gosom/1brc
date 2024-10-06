@@ -55,9 +55,9 @@ Run my solution
 My timings:
 
 ```
-real 9.67
-user 96.25
-sys 12.09
+real 9.27
+user 97.72
+sys 10.76
 ```
 
 The top from the profiler:
@@ -65,23 +65,22 @@ The top from the profiler:
 ```
 File: main
 Type: cpu
-Time: Oct 6, 2024 at 7:24pm (EEST)
-Duration: 9.87s, Total samples = 108.67s (1100.63%)
+Time: Oct 6, 2024 at 7:54pm (EEST)
+Duration: 9.40s, Total samples = 107.86s (1147.96%)
 Entering interactive mode (type "help" for commands, "o" for options)
 (pprof) top
-Showing nodes accounting for 102.30s, 94.14% of 108.67s total
-Dropped 31 nodes (cum <= 0.54s)
-Showing top 10 nodes out of 26
+Showing nodes accounting for 100.13s, 92.83% of 107.86s total
+Dropped 36 nodes (cum <= 0.54s)
+Showing top 10 nodes out of 27
       flat  flat%   sum%        cum   cum%
-    24.57s 22.61% 22.61%     37.01s 34.06%  main.parseLine
-    17.07s 15.71% 38.32%     31.64s 29.12%  main.(*actor).processChunk-range1
-    12.48s 11.48% 49.80%     12.48s 11.48%  internal/runtime/syscall.Syscall6
-    12.06s 11.10% 60.90%     12.17s 11.20%  main.atoi
-    10.74s  9.88% 70.78%     10.86s  9.99%  main.djb2Hash (inline)
-     8.49s  7.81% 78.60%      8.49s  7.81%  indexbytebody
-     5.31s  4.89% 83.48%     16.79s 15.45%  main.scanLines
-     4.45s  4.09% 87.58%    108.65s   100%  main.(*actor).processChunk.(*MeasurementsReader).All.func2
-     3.80s  3.50% 91.07%     34.13s 31.41%  bufio.(*Scanner).Scan
-     3.33s  3.06% 94.14%      3.33s  3.06%  memeqbody
-(pprof)
+    22.26s 20.64% 20.64%     34.34s 31.84%  main.parseLine
+    16.97s 15.73% 36.37%     33.22s 30.80%  main.(*actor).processChunk-range1
+    11.86s 11.00% 47.37%     11.91s 11.04%  main.atoi
+    11.30s 10.48% 57.84%     11.36s 10.53%  main.djb2Hash (inline)
+    10.03s  9.30% 67.14%     10.03s  9.30%  internal/runtime/syscall.Syscall6
+     9.22s  8.55% 75.69%      9.22s  8.55%  indexbytebody
+     5.96s  5.53% 81.22%     18.51s 17.16%  main.scanLines
+     4.88s  4.52% 85.74%    107.79s 99.94%  main.(*actor).processChunk.(*MeasurementsReader).All.func2
+     4.04s  3.75% 89.49%     33.82s 31.36%  bufio.(*Scanner).Scan
+     3.61s  3.35% 92.83%      3.61s  3.35%  memeqbody
 ```
