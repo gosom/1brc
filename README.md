@@ -55,9 +55,9 @@ Run my solution
 My timings:
 
 ```
-real 10.97
-user 121.80
-sys 11.21
+real 9.67
+user 96.25
+sys 12.09
 ```
 
 The top from the profiler:
@@ -65,22 +65,23 @@ The top from the profiler:
 ```
 File: main
 Type: cpu
-Time: Sep 29, 2024 at 8:15pm (EEST)
-Duration: 10.78s, Total samples = 126.79s (1176.31%)
+Time: Oct 6, 2024 at 7:24pm (EEST)
+Duration: 9.87s, Total samples = 108.67s (1100.63%)
 Entering interactive mode (type "help" for commands, "o" for options)
 (pprof) top
-Showing nodes accounting for 111.67s, 88.07% of 126.79s total
-Dropped 37 nodes (cum <= 0.63s)
-Showing top 10 nodes out of 28
+Showing nodes accounting for 102.30s, 94.14% of 108.67s total
+Dropped 31 nodes (cum <= 0.54s)
+Showing top 10 nodes out of 26
       flat  flat%   sum%        cum   cum%
-    27.73s 21.87% 21.87%     39.88s 31.45%  main.parseLine
-    15.82s 12.48% 34.35%     34.62s 27.30%  runtime.mapaccess2_faststr
-    11.80s  9.31% 43.65%     11.89s  9.38%  main.atoi
-    11.27s  8.89% 52.54%     11.27s  8.89%  internal/runtime/syscall.Syscall6
-    11.22s  8.85% 61.39%     45.88s 36.19%  main.(*actor).processChunk-range1
-    10.29s  8.12% 69.51%     10.29s  8.12%  aeshashbody
-     8.63s  6.81% 76.32%      8.63s  6.81%  indexbytebody
-     5.72s  4.51% 80.83%     17.50s 13.80%  main.scanLines
-     4.75s  3.75% 84.57%    126.71s 99.94%  main.(*actor).processChunk.(*MeasurementsReader).All.func1
-     4.44s  3.50% 88.07%     34.63s 27.31%  bufio.(*Scanner).Scan
+    24.57s 22.61% 22.61%     37.01s 34.06%  main.parseLine
+    17.07s 15.71% 38.32%     31.64s 29.12%  main.(*actor).processChunk-range1
+    12.48s 11.48% 49.80%     12.48s 11.48%  internal/runtime/syscall.Syscall6
+    12.06s 11.10% 60.90%     12.17s 11.20%  main.atoi
+    10.74s  9.88% 70.78%     10.86s  9.99%  main.djb2Hash (inline)
+     8.49s  7.81% 78.60%      8.49s  7.81%  indexbytebody
+     5.31s  4.89% 83.48%     16.79s 15.45%  main.scanLines
+     4.45s  4.09% 87.58%    108.65s   100%  main.(*actor).processChunk.(*MeasurementsReader).All.func2
+     3.80s  3.50% 91.07%     34.13s 31.41%  bufio.(*Scanner).Scan
+     3.33s  3.06% 94.14%      3.33s  3.06%  memeqbody
+(pprof)
 ```

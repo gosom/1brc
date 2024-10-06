@@ -156,32 +156,77 @@ func (a *actor) run() {
 }
 
 func (a *actor) processChunk(chunk chunk) subResult {
-	m := make(map[string]*result, 10000)
+	const size uint32 = 100000
+
+	resultSlice := make([]result, size)
+	positions := make([]int, 0, size/2)
 
 	reader := MeasurementsReader{chunk: chunk, fd: a.fd}
 
 	for measurement := range reader.All() {
-		if v, ok := m[string(measurement.station)]; ok {
-			v.min = min(v.min, measurement.temp)
-			v.max = max(v.max, measurement.temp)
-			v.total++
-			v.sum += measurement.temp
+		hv := djb2Hash(measurement.station, size)
+
+		if resultSlice[hv].station == "" {
+			resultSlice[hv].station = string(measurement.station)
+			resultSlice[hv].min = measurement.temp
+			resultSlice[hv].max = measurement.temp
+			resultSlice[hv].total = 1
+			resultSlice[hv].sum = measurement.temp
+			positions = append(positions, int(hv))
+		} else if resultSlice[hv].station == string(measurement.station) {
+			resultSlice[hv].min = min(resultSlice[hv].min, measurement.temp)
+			resultSlice[hv].max = max(resultSlice[hv].max, measurement.temp)
+			resultSlice[hv].total++
+			resultSlice[hv].sum += measurement.temp
 		} else {
-			m[string(measurement.station)] = &result{
-				station: string(measurement.station),
-				min:     measurement.temp,
-				max:     measurement.temp,
-				total:   1,
-				sum:     measurement.temp,
+			for {
+				hv = (hv + 1) % size
+
+				if resultSlice[hv].station == "" {
+					resultSlice[hv].station = string(measurement.station)
+					resultSlice[hv].min = measurement.temp
+					resultSlice[hv].max = measurement.temp
+					resultSlice[hv].total = 1
+					resultSlice[hv].sum = measurement.temp
+					positions = append(positions, int(hv))
+
+					break
+				} else if resultSlice[hv].station == string(measurement.station) {
+					resultSlice[hv].min = min(resultSlice[hv].min, measurement.temp)
+					resultSlice[hv].max = max(resultSlice[hv].max, measurement.temp)
+					resultSlice[hv].total++
+					resultSlice[hv].sum += measurement.temp
+
+					break
+				}
+			}
+		}
+	}
+
+	it := func(yield func(*result) bool) {
+		for _, pos := range positions {
+			if !yield(&resultSlice[pos]) {
+				break
 			}
 		}
 	}
 
 	ans := subResult{
-		items: maps.Values(m),
+		items: it,
 	}
 
 	return ans
+}
+
+// http://www.cse.yorku.ca/~oz/hash.html (almost)
+func djb2Hash(b []byte, sliceSize uint32) uint32 {
+	var hash uint32 = 5381
+
+	for _, c := range b {
+		hash = ((hash << 5) + hash) ^ uint32(c)
+	}
+
+	return uint32(hash % sliceSize)
 }
 
 type MeasurementsReader struct {
