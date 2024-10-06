@@ -236,7 +236,6 @@ type MeasurementsReader struct {
 
 func (m *MeasurementsReader) All() iter.Seq[measurement] {
 	return func(yield func(measurement) bool) {
-
 		sectionReader := io.NewSectionReader(m.fd, m.chunk.start, m.chunk.end-m.chunk.start)
 
 		scanner := bufio.NewScanner(sectionReader)
