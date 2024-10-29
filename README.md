@@ -12,9 +12,10 @@ This is an attempt to solve a 1 Billion Rows Challenge in Go.
 
 ## My setup
 
-the code is tested on a Lenovo laptop running Fedora.
+the code is tested on a Lenovo laptop running Ubuntu.
 
-CPU: AMD Ryzen 7 PRO 4750U with Radeon Graphics
+CPU: Intel(R) Core(TM) Ultra 7 155H
+
 
 while testing the laptop was plugged in to power.
 
@@ -34,13 +35,7 @@ cd 1brc
 /usr/bin/time -o baseline.txt ./calculate_average_baseline.sh >baseline.results
 ```
 
-The baseline solution coded in JAVA in my machine takes:
-
-```
-real 271.27 ~= 4.52 minutes
-user 228.36
-sys 19.98
-```
+The baseline solution coded in JAVA in my machine takes around `2mins`
 
 (2)
 
@@ -55,9 +50,9 @@ Run my solution
 My timings:
 
 ```
-real 9.27
-user 97.72
-sys 10.76
+real 2.98
+user 57.13
+sys 1.89
 ```
 
 The top from the profiler:
@@ -65,22 +60,22 @@ The top from the profiler:
 ```
 File: main
 Type: cpu
-Time: Oct 6, 2024 at 7:54pm (EEST)
-Duration: 9.40s, Total samples = 107.86s (1147.96%)
+Time: Oct 29, 2024 at 7:28pm (EET)
+Duration: 3.20s, Total samples = 61.97s (1935.33%)
 Entering interactive mode (type "help" for commands, "o" for options)
 (pprof) top
-Showing nodes accounting for 100.13s, 92.83% of 107.86s total
-Dropped 36 nodes (cum <= 0.54s)
-Showing top 10 nodes out of 27
+Showing nodes accounting for 59.32s, 95.72% of 61.97s total
+Dropped 17 nodes (cum <= 0.31s)
+Showing top 10 nodes out of 26
       flat  flat%   sum%        cum   cum%
-    22.26s 20.64% 20.64%     34.34s 31.84%  main.parseLine
-    16.97s 15.73% 36.37%     33.22s 30.80%  main.(*actor).processChunk-range1
-    11.86s 11.00% 47.37%     11.91s 11.04%  main.atoi
-    11.30s 10.48% 57.84%     11.36s 10.53%  main.djb2Hash (inline)
-    10.03s  9.30% 67.14%     10.03s  9.30%  internal/runtime/syscall.Syscall6
-     9.22s  8.55% 75.69%      9.22s  8.55%  indexbytebody
-     5.96s  5.53% 81.22%     18.51s 17.16%  main.scanLines
-     4.88s  4.52% 85.74%    107.79s 99.94%  main.(*actor).processChunk.(*MeasurementsReader).All.func2
-     4.04s  3.75% 89.49%     33.82s 31.36%  bufio.(*Scanner).Scan
-     3.61s  3.35% 92.83%      3.61s  3.35%  memeqbody
+    14.09s 22.74% 22.74%     25.98s 41.92%  main.(*actor).processChunk-range1
+    13.47s 21.74% 44.47%     22.93s 37.00%  main.parseLine
+     9.41s 15.18% 59.66%      9.42s 15.20%  main.atoi
+     8.88s 14.33% 73.99%      8.89s 14.35%  main.djb2Hash (inline)
+     3.56s  5.74% 79.73%     10.97s 17.70%  bufio.(*Scanner).Scan
+     2.56s  4.13% 83.86%      2.56s  4.13%  memeqbody
+     2.29s  3.70% 87.56%      2.29s  3.70%  indexbytebody
+     1.87s  3.02% 90.58%      1.87s  3.02%  internal/runtime/syscall.Syscall6
+     1.68s  2.71% 93.29%      4.71s  7.60%  main.scanLines
+     1.51s  2.44% 95.72%     61.94s   100%  main.(*actor).processChunk.(*MeasurementsReader).All.func2
 ```
